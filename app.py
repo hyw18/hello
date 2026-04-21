@@ -19,5 +19,28 @@ def send():
     messages.append(skill + " / " + level)
     return redirect('/')
 
+@app.route('/delete', methods=['POST'])
+def delete():
+    index = int(request.form['index'])
+    messages.pop(index)
+    return redirect('/')
+
+@app.route('/delete_all', methods=['POST'])
+def delete_all():
+    messages.clear()
+    return redirect('/')
+
+@app.route('/delete_selected', methods=['POST'])
+def delete_selected():
+    indexes = request.form.getlist('delete_indexes')
+
+    indexes = [int(index) for index in indexes]
+    indexes.sort(reverse=True)
+
+    for index in indexes:
+        messages.pop(index)
+
+    return redirect('/')
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
