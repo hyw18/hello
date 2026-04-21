@@ -20,6 +20,12 @@
             {% endif %}
         {% endfor %}
     </div>
+    <div>
+        <h2 class="mt9 text=xl font-bold">입력한 데이터</h2>
+        {% for item in messages %}
+            <div class="bg-green-200 p-2 m-2 rounded">{{ item }}</div>
+        {% endfor %}
+    </div>
     <form action="/send" method="POST" class="mt-8">
         <input type="text" name="skill" placeholder="기술 입력" class="border px-3 py-2 rounded">
         <input type="text" name="level" placeholder="난이도 입력" class="border px-3 py-2 rounded">
