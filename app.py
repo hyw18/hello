@@ -1,45 +1,27 @@
 from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
-messages = []
+messages = messages = [
+    {"skill": "Python"},
+    {"skill": "HTML"},
+    {"skill": "SQL"},
+    {"skill": "Bash"},
+    {"skill": "Java"}
+]
 
 @app.route('/')
 def home():
-    skill = [
-        "C", "C++", "C#", "Java",
-        "JavaScript",
-        "Python"
-    ]
-    return render_template('index.html', data=skill, messages=messages)
+    return render_template('index.html', messages=messages)
 
 @app.route('/send', methods=['POST'])
 def send():
-    skill = request.form.get('skill')
-    level = request.form.get('level')
-    messages.append(skill + " / " + level)
-    return redirect('/')
+    skill = request.form.get('skill', '').strip()
 
-@app.route('/delete', methods=['POST'])
-def delete():
-    index = int(request.form['index'])
-    messages.pop(index)
-    return redirect('/')
-
-@app.route('/delete_all', methods=['POST'])
-def delete_all():
-    messages.clear()
-    return redirect('/')
-
-@app.route('/delete_selected', methods=['POST'])
-def delete_selected():
-    indexes = request.form.getlist('delete_indexes')
-
-    indexes = [int(index) for index in indexes]
-    indexes.sort(reverse=True)
-
-    for index in indexes:
-        messages.pop(index)
-
+    if not skill:
+        return redirect('/')
+    
+    messages.append({"skill": skill})
+    
     return redirect('/')
 
 if __name__ == "__main__":
