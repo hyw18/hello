@@ -18,7 +18,7 @@ def send():
     level = request.form.get('level', '').strip()
     status = request.form.get('status', '').strip()
 
-    if not skill or not level or not status:
+    if not skill or not level or (not level == "상" and not level == "중" and not level == "하") or not status or (not status == "학습중" and not status == "학습완료"):
         return redirect('/')
 
     messages.append({
